@@ -21,6 +21,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index, name="index"),
     path("about", views.about, name="about"),
-    path("one", views.one, name="one")
+    path("one", views.one, name="one"),
+    path("GFG", views.GFG, name="GFG"),
+    path("www_dcwh", views.www_dcwh, name="www_dcwh"),
+    path("oo1_gmail", views.oo1_gmail, name="oo1_gmail"),
+    path("opti_mail", views.opti_mail, name="opti_mail")
+
 
 ]

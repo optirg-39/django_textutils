@@ -7,7 +7,8 @@ def index(request):
     # return HttpResponse('<h1>hello world Rishabh</h1>')
 
 def analyzer(request):
-    djtext = request.GET.get('text', 'default')
+    djtext = request.GET.get('text','default')
+    print(djtext)
     removepunc = request.GET.get('yesorno', 'yes')
     capitalize_first = request.GET.get('capitalize', 'yes')
     newlineremover = request.GET.get('newlineremover', 'yes')
@@ -15,16 +16,20 @@ def analyzer(request):
     charcount = request.GET.get('charcount', 'yes')
 
     answer_text = ''
+    print(djtext)
 
     punctuations='''!()-[]{};:'"\,<>./?@#$%^&*_~'''
     if removepunc=="on":
         for tx in djtext:
             if tx not in punctuations:
                 answer_text+=tx
+        print(answer_text)
+        print(djtext)
         param = {'Purpose': 'Remove Punctuations', "analyzed_text": answer_text}
     elif capitalize_first =="on":
         for char in djtext:
             answer_text+=char.upper()
+        print(answer_text)
         param = {'Purpose': 'CAPITALIZE FIRST', "analyzed_text": answer_text}
     elif newlineremover =="on":
         for char in djtext:
@@ -50,6 +55,6 @@ def analyzer(request):
     else:
         return HttpResponse('Error occur')
 
-    return render(request, 'analyzer.html', param)
+    return render(request,'analyzer.html', param)
 
 

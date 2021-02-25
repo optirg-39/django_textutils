@@ -7,21 +7,49 @@ def index(request):
     # return HttpResponse('<h1>hello world Rishabh</h1>')
 
 def analyzer(request):
-    djtext=request.GET.get('text','default')
-    print(djtext)
-    checkbox=request.GET.get('yesorno','yes')
-    print(checkbox)
-    answer_text=''
+    djtext = request.GET.get('text', 'default')
+    removepunc = request.GET.get('yesorno', 'yes')
+    capitalize_first = request.GET.get('capitalize', 'yes')
+    newlineremover = request.GET.get('newlineremover', 'yes')
+    extraspaceremover = request.GET.get('extraspaceremover', 'yes')
+    charcount = request.GET.get('charcount', 'yes')
+
+    answer_text = ''
+
     punctuations='''!()-[]{};:'"\,<>./?@#$%^&*_~'''
-    if checkbox=="on":
+    if removepunc=="on":
         for tx in djtext:
             if tx not in punctuations:
                 answer_text+=tx
+        param = {'Purpose': 'Remove Punctuations', "analyzed_text": answer_text}
+    elif capitalize_first =="on":
+        for char in djtext:
+            answer_text+=char.upper()
+        param = {'Purpose': 'CAPITALIZE FIRST', "analyzed_text": answer_text}
+    elif newlineremover =="on":
+        for char in djtext:
+            if char !="\n":
+                answer_text+=char
+        param = {'Purpose': 'newlineremover', "analyzed_text": answer_text}
+    elif extraspaceremover =="on":
+        for index,char in enumerate(djtext,0):
+            if index==(len(djtext)-1):
+                pass
+            elif not (djtext[index]==" " and djtext[index+1]==" "):
+                answer_text+=char
+        param = {'Purpose': 'extraspaceremover', "analyzed_text": answer_text}
+    elif charcount == "on":
+        d={}
+        for char in djtext:
+            if char in d.keys():
+                pass
+            else:
+                d[char]=djtext.count(char)
+        answer_text = d
+        param = {'Purpose': 'charcount', "analyzed_text": answer_text}
     else:
-        answer_text="Check the check box"
-    # ans=answer_text
-    # print(ans)
-    param={"analyzed_text": answer_text}
+        return HttpResponse('Error occur')
+
     return render(request, 'analyzer.html', param)
 
 
